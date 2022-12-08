@@ -35,7 +35,7 @@ sudo docker run \
 
 ### Without Docker
 
-Dependency: Python3 and pip3 installed. `sudo apt-get install python3-pip` if missing on raspbian.
+Dependency: Python 3.9+ and pip3 installed. `sudo apt-get install python3-pip` if missing on raspbian.
 
 1. Git clone this repository and cd into directory
 2. `cp template.config.yaml config.yaml`
