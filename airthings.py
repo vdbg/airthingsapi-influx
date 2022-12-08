@@ -9,7 +9,6 @@ from requests import HTTPError
 
 class Device:
     def __init__(self, conf: dict) -> None:
-        print(conf)
         self.id: str = conf["id"]
         self.type: str = conf["deviceType"]
         self.name: str = conf["segment"]["name"]
