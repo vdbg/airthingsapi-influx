@@ -1,0 +1,33 @@
+# Create org, bucket & token by navigating to your InfluxDB url from a browser
+influx:
+  url: http://localhost:8086  # location of InfluxDB v2 database
+  bucket: "air_quality"       # name of available bucket
+  token: super-secret-token   # token with write permission to bucket
+  org: "your org in influx"   # org of the bucket
+
+main:
+  logverbosity: INFO # by increasing level of verbosity: FATAL, ERROR, WARNING, INFO, DEBUG
+  # How long to wait before pulling data again from the device. 0 to only read once.
+  # Airthings has a max 120 requests/hour, meaning one request every 30s
+  loop_seconds: 180 # refresh data every 3m
+
+airthings:
+  # Id and secret are created in https://dashboard.airthings.com/integrations/api-integration
+  clientID: "xxxxxxxx-yyyy-zzzz-vvvv-wwwwwwwwwwww"
+  clientSecret: "xxxxxxxx-yyyy-zzzz-vvvv-wwwwwwwwwwww"
+  # List of device serial numbers to query data from. These need to be entered as strings, for example: [ "123", "456" ].
+  # If left empty (meaning: []), all the devices associated with this clientId will be queried. 
+  # Device serial numbers are available in the app logs and on https://dashboard.airthings.com/devices/
+  devices: []  
+  # Optional: remove and/or rename fields. Key is name from airthings, value is desired name. Empty string value means remove
+  # The original names are listed in https://developer.airthings.com/consumer-api-docs/#operation/Device%20samples%20latest-values
+  fields_rename:
+    time: "" # removing because time is already converted to measurement's timestamp
+    battery: "" # removing because not air-quality related and (in my case) it's always 0 because device is powered by USB
+    relayDeviceType: "" # removing because not air-quality related
+    co2: "carbon_dioxide"
+    temp: "temperature"
+    voc: "volatile_organic_compounds"
+  measurement: "air_quality" # Name to give to the measurements in influx db
+  auth_url: "https://accounts-api.airthings.com/v1/token" # should not need to change this entry
+  api_url: ""https://ext-api.airthings.com/v1/" # should not need to change this entry
