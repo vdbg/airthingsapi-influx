@@ -22,7 +22,7 @@ Dependency: Docker installed.
 5. Once the settings are finalized, `Ctrl-C` to stop the container, `sudo docker container rm airthings-api` to delete it
 6. Start the container with the final settings:
 
-``
+```
 sudo docker run \
   -d \
   --name airthings-api \
@@ -31,7 +31,7 @@ sudo docker run \
   --pull=always \
   --restart=always \
   vdbg/airthings-api-influx:latest
-``
+```
 
 ### Without Docker
 
