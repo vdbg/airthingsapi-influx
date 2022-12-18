@@ -29,6 +29,7 @@ class AirthingsConnector:
         self._auth_url: str = conf["auth_url"]
         self._api_url: str = conf["api_url"]
         self._auth_token: str = None
+        self._elevation: float = float(conf["elevation"])
 
     def __get_auth_token(self) -> str:
         try:
@@ -78,6 +79,21 @@ class AirthingsConnector:
             logging.info(f"Found device(s): {', '.join(map(str, self._devices))}.")
         return self._devices
 
+    def __adjust_pressure(self, pressure_mbar: float, temperature_celsius: float, altitude_meter: float) -> float:
+        if altitude_meter == 0:
+            return pressure_mbar
+
+        # formula taken from https://keisan.casio.com/exec/system/1224575267
+        temperature_gradient: float = 0.0065
+        temperature_kelvin: float = 273.15 + temperature_celsius
+
+        pressure_sea_level = pressure_mbar * pow(1 - temperature_gradient * altitude_meter / (temperature_kelvin + temperature_gradient * altitude_meter), -5.257)
+        pressure_sea_level = round(pressure_sea_level, 1)
+
+        logging.debug(f"Pressure: recorded={pressure_mbar};sea-level={pressure_sea_level}")
+
+        return pressure_sea_level
+
     def fetch_data(self) -> list:
         records = []
 
@@ -91,6 +107,8 @@ class AirthingsConnector:
                 "time": time
             }
             logging.debug(f"Data before transform: {data}")
+            if "temp" in data and "pressure" in data:
+                data["pressure"] = self.__adjust_pressure(float(data["pressure"]), float(data["temp"]), self._elevation)
             for key, newKey in self._fields_rename.items():
                 if key in data:
                     value = data.pop(key)

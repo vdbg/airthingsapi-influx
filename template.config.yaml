@@ -18,7 +18,9 @@ airthings:
   # List of device serial numbers to query data from. These need to be entered as strings, for example: [ "123", "456" ].
   # If left empty (meaning: []), all the devices associated with this clientId will be queried. 
   # Device serial numbers are available in the app logs and on https://dashboard.airthings.com/devices/
-  devices: []  
+  devices: []
+  # Optional: elevation in meters. See README.md for explanation for why you may want to set it.
+  elevation: 0
   # Optional: remove and/or rename fields. Key is name from airthings, value is desired name. Empty string value means remove
   # The original names are listed in https://developer.airthings.com/consumer-api-docs/#operation/Device%20samples%20latest-values
   fields_rename:
