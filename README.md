@@ -43,6 +43,17 @@ Dependency: Python 3.9+ and pip3 installed. `sudo apt-get install python3-pip` i
 4. `pip3 install -r requirements.txt`
 5. `python3 main.py` or `./main.py`
 
+## Should I set the elevation?
+
+The barometric (= atmospheric) pressure is affected by the temperature, humidity and altitude (= elevation): while the standard barometric pressure at sea-level is 1013.25 mbar, it's 300 mbar at the top of Mount Everest. 
+
+For that reason, weather stations always adjust their recorded surface pressure to the standard [mean sea-level pressure](https://en.wikipedia.org/wiki/Atmospheric_pressure#Mean_sea-level_pressure) and that pressure is the one reported in weather reports on the radio, television, newspapers, official organizations such as [NOAA](https://www.wpc.ncep.noaa.gov/basicwx/92fndfd.gif), etc. Otherwise, comparing pressures recorded at two different locations would be akin to comparing apples to oranges.
+
+AirThings asks for the device location but doesn't use this information (nor the recorded temperature) to adjust its recorded surface pressure. Therefore if you have any other weather station (such as the [Davis Vantage](https://www.davisinstruments.com/pages/vantage-pro2)) or compare Airthing's values to official ones, you will get different readings, unless you live at sea-level and it's currently [15 degrees Celsius](https://en.wikipedia.org/wiki/Standard_sea-level_conditions).
+
+If you wish to correct that, [find the device's altitude](https://www.advancedconverter.com/map-tools/find-elevation-of-a-location) in meters and enter it in the config file under `airthings:elevation`, then restart the script. If you have multiple AirThings devices at different elevations, run separate instances of this script and use `airthings:devices` to have each instance handle a subset of the devices.
+
+
 ## Cloud vs. Local considerations
 
 For Airthings devices that provide local querying capabilities, a recommended alternative is to use BLE instead.
