@@ -32,4 +32,4 @@ airthings:
     voc: "volatile_organic_compounds"
   measurement: "air_quality" # Name to give to the measurements in influx db
   auth_url: "https://accounts-api.airthings.com/v1/token" # should not need to change this entry
-  api_url: ""https://ext-api.airthings.com/v1/" # should not need to change this entry
+  api_url: "https://ext-api.airthings.com/v1/" # should not need to change this entry
